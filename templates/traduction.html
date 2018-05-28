@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Transcription</title>
+		<link rel="Shortcut Icon" type="image/x-icon" href="/static/img/logolium.png">
+		<!-- Stylecss -->
+		<link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/carousel.css" rel="stylesheet">
+		<link href="/static/style.css" rel="stylesheet">
+  	</head>
+
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-md navbar-dark fixed-top ">
+				<a class="navbar-brand text-black" href="#" ></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarCollapse">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled" href="#"></a>
+						</li>
+					</ul>
+					<form class="form-inline mt-2 mt-md-0">
+						<h4>
+							<a href="{{ url_for('index') }}">ACCUEIL</a>  &nbsp;&nbsp;
+							<a href="{{ url_for('traduction') }}">TRADUCTION</a> &nbsp;&nbsp;
+							<a href="{{ url_for('transcription') }}">TRANSCRPTION</a>&nbsp;&nbsp;</h4>
+					</form>
+				</div>
+			</nav>
+			<hr>
+			<div class="navbar">
+				<img src='/static/img/logo_lium.png' class="w3-bar-item"  style="width:200px;height:90px;"/>
+				<h3 align='center'>TRADUCTION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</h3>
+			</div>
+		</header>
+		<hr>
+		
+		<main role="main">
+			<div class="container">
+				<form action="{{ url_for('traduction') }}" method="post">
+					<select  id="source" name="source" style="padding: 14px 32px;" required>
+						<option value=''>Choisir Langue Source</option>
+						<option value='fr'>Français</option>
+						<option value='en'>Anglais</option>
+						<option value='ar'>Arabe</option>
+					</select>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<select  id="target" name="target" style="padding: 14px 32px;" required>
+						<option value=''>Choisir Langue Cible</option>
+						<option value='fr'>Français</option>
+						<option value='en'>Anglais</option>
+						<option value='ar'>Arabe</option>
+					</select>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type='submit' class="button button3" value='Traduire'>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+					<div class="form-group">
+						<textarea class="form-control" rows="5" id="text" name="text" required></textarea>
+						<h2>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						</h2> 
+						<textarea id="translation" name="translation" class="form-control" rows="5" readonly>{{translation}}</textarea>
+					</div>
+				</form>
+			</div>
+		</main>
+		
+		<footer>		
+			<div id="footer-core">		  
+				<div class="widget-area one_fourth">
+					<a href="http://www.univ-lemans.fr">
+						<img src='/static/img/universite.jpg' width="80%" hspace="10" vspace="20" alt="universite">
+					</a>
+				</div>
+				<div class="widget-area last three_fourth">
+					<aside class="widget widget_text">
+						<h3 class="footer-widget-title"><span>Laboratoire d’Informatique de l’Université du Mans (LIUM – EA 4023)</span></h3>	
+						<div class="textwidget">
+							<p>Avenue Olivier Messiaen<br>
+							F-72085 – LE MANS CEDEX 9<br>
+							Tél : +33 (0) 2 43 83 38 58</p>
+						</div>
+					</aside>
+				</div>      
+				<div class="copyright">(c) LIUM - Le Mans Université</div>
+			</div>
+		</footer>
+
+		<!-- JS files to upload faster-->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="/static/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+		<script src="/static/assets/js/vendor/popper.min.js"></script>
+		<script src="/static/dist/js/bootstrap.min.js"></script>
+		<script src="/static/assets/js/vendor/holder.min.js"></script>
+	</body>
+</html>
