@@ -1,9 +1,9 @@
 a{
    font-family: Verdana;
    font-size: 10pt;
-   Font-Weight: Bold;
+   font-weight: bold;
    color: #e5442d;
-   }
+}
 .button {
     background-color: #4CAF50; /* Green */
     border: none;

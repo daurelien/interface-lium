@@ -1,124 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>Transcription</title>
-		<link rel="Shortcut Icon" type="image/x-icon" href="/static/img/logolium.png">
-		<!-- Stylecss -->
+		<title>Transcription - LIUM</title>
+    <link rel="shortcut icon" type="image/x-icon" href={{ url_for('static', filename='img/favicon.ico') }}>
 		<link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/static/carousel.css" rel="stylesheet">
 		<link href="/static/style.css" rel="stylesheet">
-  	</head>
+	</head>
 
-	<style type='text/css'>
-		ul { list-style: none; }
-		#recordingslist audio { display: block; margin-bottom: 10px; }
-
-		.one_half     {width: 48.7%; }
-		.one_third    {width: 31.6%; }
-		.two_third    {width: 65.8%; }
-		.one_fourth   {width: 23.05%; }
-		.three_fourth {width: 74.35%; }
-		.last         {clear: right; margin-right: 0px !important; }
-
-		.one_half, .one_third, .two_third, .one_fourth,
-		.three_fourth{
-			margin-right: 2.6%;
-			margin-bottom: 20px;
-			position: relative;
-			float: left;
-		}
-
-		#footer-widgets div > p, .footer-widget-title span {
-			color: #646464;
-		}
-
-		.closed1 {display:none;}
-		.opened {display:block;}
-	</style>
-	
-	<script>
-		function __log(e, data) {
-			log.innerHTML += "\n" + e + " " + (data || '');
-		}
-		var audio_context;
-		var recorder;
-		function startUserMedia(stream) {
-			var input = audio_context.createMediaStreamSource(stream);
-			__log('Media stream created.');
-		
-			recorder = new Recorder(input);
-			__log('Recorder initialised.');
-		}
-		function startRecording(button) {
-			recorder && recorder.record();
-			button.disabled = true;
-			button.nextElementSibling.disabled = false;
-			__log('Recording...');
-		}
-		function stopRecording(button) {
-			recorder && recorder.stop();
-			button.disabled = true;
-			button.previousElementSibling.disabled = false;
-			__log('Stopped recording.');
-		
-			createDownloadLink(); //For downloading  WAV audio file
-		
-			recorder.clear();
-		}
-		function createDownloadLink() {
-			recorder && recorder.exportWAV(function(blob) {
-				var url = URL.createObjectURL(blob);
-				var li = document.createElement('li');
-				var au = document.createElement('audio');
-				var hf = document.createElement('a');
-			
-				au.controls = true;
-				au.src = url;
-				hf.href = url;
-				hf.download = new Date().toISOString() + '.wav';
-				hf.innerHTML = hf.download;
-				li.appendChild(au);
-				li.appendChild(hf);
-				recordingslist.appendChild(li);
-			});
-		}
-		window.onload = function init() {
-			try {
-				window.AudioContext = window.AudioContext || window.webkitAudioContext;
-				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-				window.URL = window.URL || window.webkitURL;
-			
-				audio_context = new AudioContext;
-				__log('Audio context set up.');
-				__log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
-			} catch (e) {
-				alert('No web audio support in this browser!');
-			}
-			navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-				__log('No live audio input: ' + e);
-			});
-		};
-	</script>
- 
-	<script src="/static/recorder.js"></script>
-	<script type="text/javascript">
-		function toggle(imgElem, divId) {
-			if(document.getElementById) {
-				var divElem = document.getElementById(divId);
-				if(divElem.className == "closed1") {
-					imgElem.src = "/static/micro.png";
-					divElem.className = "opened";
-				} 
-				if(divElem.className == "closed2") {
-					imgElem.src = "/static/icon.png";
-					divElem.className = "opened";
-				}
-			}
-		}
-	</script>
-	
 	<body>
 		<header>
 			<nav class="navbar navbar-expand-md navbar-dark fixed-top ">
@@ -141,35 +32,50 @@
 					<form class="form-inline mt-2 mt-md-0">
 						<h4><a href="{{ url_for('index') }}">ACCUEIL</a>  &nbsp;&nbsp;
 						<a href="{{ url_for('traduction') }}">TRADUCTION</a> &nbsp;&nbsp;
-						<a href="{{ url_for('transcription') }}">TRANSCRPTION</a>&nbsp;&nbsp;</h4>
+						<a href="{{ url_for('transcription') }}">TRANSCRIPTION</a>&nbsp;&nbsp;</h4>
 					</form>
 				</div>
 			</nav>
 			<hr>
 			<div class="navbar">
-				<a href="https://lium.univ-lemans.fr/" >
-					<img src='/static/img/logo_lium.png' class="w3-bar-item"  style="width:200px;height:90px;"/>
-				</a>
+				<img src='/static/logo_lium.png' class="w3-bar-item"  style="width:200px;height:90px;"/>
 				<h3 align='center'>TRANSCRIPTION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 			</div>
 		</header>
 		<hr>
 		<main role="main">
 			<div class="container">
-				<form method='get' action="{{ url_for('transcription') }}">
+				<form method="post" action="{{ url_for('transcription') }}" enctype='multipart/form-data'>
 					<select  id="lang" name='lang'style="padding: 14px 32px;" required>
-						<option value="">Choisir Langue Source</option>
-						<option value='fr'>Français</option>
+						<option>Langue</option>
+						<option value='fr'>Francais</option>
 						<option value='ang'>Anglais</option>
-						<option value="ar">Arabe</option>
 					</select>
+					{% if lang=='fr' %}
+						<script>
+							document.getElementById("lang").selectedIndex = "1";
+						</script>
+					{% endif %}
+					{% if lang=='ang' %}
+						<script>
+							document.getElementById("lang").selectedIndex = "2";
+						</script>
+					{% endif %}
 					<label class="button button3 btn-file">
-						<img src='/static/img/icon.png'>
+						<img src='/static/icon.png'>
 						<input id="audio" name="audio"  type="file" style="display: importer un fichier audio;">
 					</label>
+					<script>
+						$(document).on('ready', function() {
+							$("audio").fileinput({
+								rtl: true,
+								allowedFileExtensions: ["wav"]
+							});
+						});
+					</script>
 					<label class="button button3 btn-file">
-						<img src='/static/img/micro.png' >
-						<button onclick="toggle(this,'openbox')">Record audio</button>
+						<img src='/static/micro.png' >
+						<button onclick="toggle(this,'openbox')">Enregistrer</button>
 					</label>
 					<div id="openbox" class="closed1">
 						<fieldset>
@@ -181,38 +87,118 @@
 							<button onclick="stopRecording(this);" disabled>Stop</button>
 						</fieldset>
 					</div>
-					<button class="button button3"><img src='/static/img/edit.png'>Transcrire</button>
+					<style type='text/css'>
+						ul { list-style: none; }
+						#recordingslist audio { display: block; margin-bottom: 10px; }
+
+						.one_half     {width: 48.7%; }
+						.one_third    {width: 31.6%; }
+						.two_third    {width: 65.8%; }
+						.one_fourth   {width: 23.05%; }
+						.three_fourth {width: 74.35%; }
+						.last         {clear: right; margin-right: 0px !important; }
+
+						.one_half, .one_third, .two_third, .one_fourth,
+						.three_fourth{
+							margin-right: 2.6%;
+							margin-bottom: 20px;
+							position: relative;
+							float: left;
+						}
+						#footer-widgets div > p, .footer-widget-title span {
+							color: #646464;
+						}
+
+						.closed1 {display:none;}
+						.opened {display:block;}
+					</style>
+					<script>
+						function __log(e, data) {
+							log.innerHTML += "\n" + e + " " + (data || '');
+						}
+						var audio_context;
+						var recorder;
+						function startUserMedia(stream) {
+							var input = audio_context.createMediaStreamSource(stream);
+							__log('Media stream created.');
+		
+						recorder = new Recorder(input);
+						__log('Recorder initialised.');
+						}
+						function startRecording(button) {
+							recorder && recorder.record();
+							button.disabled = true;
+							button.nextElementSibling.disabled = false;
+						__log('Recording...');
+						}
+						function stopRecording(button) {
+							recorder && recorder.stop();
+							button.disabled = true;
+							button.previousElementSibling.disabled = false;
+							__log('Stopped recording.');
+							createDownloadLink(); //For downloading  WAV audio file
+							recorder.clear();
+						}
+						function createDownloadLink() {
+							recorder && recorder.exportWAV(function(blob) {
+								var url = URL.createObjectURL(blob);
+								var li = document.createElement('li');
+								var au = document.createElement('audio');
+								var hf = document.createElement('a');
+
+								au.controls = true;
+								au.src = url;
+								hf.href = url;
+								hf.download = new Date().toISOString() + '.wav';
+								hf.innerHTML = hf.download;
+								li.appendChild(au);
+								li.appendChild(hf);
+								recordingslist.appendChild(li);
+							});
+						}
+						window.onload = function init() {
+							try {
+								window.AudioContext = window.AudioContext || window.webkitAudioContext;
+								navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+								window.URL = window.URL || window.webkitURL;
+			
+								audio_context = new AudioContext;
+								__log('Audio context set up.');
+								__log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+							} catch (e) {
+								alert('No web audio support in this browser!');
+							}
+							navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
+								__log('No live audio input: ' + e);
+							});
+						};
+					</script>
+					<script src="/static/recorder.js"></script>
+					<script type="text/javascript">
+						function toggle(imgElem, divId) {
+							if(document.getElementById) {
+								var divElem = document.getElementById(divId);
+								if(divElem.className == "closed1") {
+									imgElem.src = "/static/micro.png";
+									divElem.className = "opened";
+								} 
+								if(divElem.className == "closed2") {
+									imgElem.src = "/static/icon.png";
+									divElem.className = "opened";
+								}
+							}
+						}
+					</script> 
+					<button class="button button3"><img src='/static/edit.png'>Transcrire</button>
 					<div class="form-group">
-						<textarea  id='txt' name='txt' class="form-control" rows="10">{{txt}}</textarea>
+						<textarea  id='txt' name='txt' class="form-control" rows="10" >{{txt}}</textarea>
 					</div>
 				</form>
 			</div>
 		</main>
 
-		<footer>		
-			<div id="footer-core">		  
-				<div class="widget-area one_fourth">
-					<a href="http://www.univ-lemans.fr">
-						<img src='/static/img/universite.jpg' width="80%" hspace="10" vspace="20" alt="universite">
-					</a>
-				</div>
-				<div class="widget-area last three_fourth">
-					<aside class="widget widget_text">
-						<h3 class="footer-widget-title"><span>Laboratoire d’Informatique de l’Université du Mans (LIUM – EA 4023)</span></h3>	
-						<div class="textwidget">
-							<p>Avenue Olivier Messiaen<br>
-							F-72085 – LE MANS CEDEX 9<br>
-							Tél : +33 (0) 2 43 83 38 58</p>
-						</div>
-					</aside>
-				</div>      
-				<div class="copyright">(c) LIUM - Le Mans Université</div>
-			</div>
-		</footer>
-
-		<!-- JS files to upload faster-->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="/static/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+		<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
 		<script src="/static/assets/js/vendor/popper.min.js"></script>
 		<script src="/static/dist/js/bootstrap.min.js"></script>
 		<script src="/static/assets/js/vendor/holder.min.js"></script>

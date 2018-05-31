@@ -3,13 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>Transcription</title>
-		<link rel="Shortcut Icon" type="image/x-icon" href="/static/img/logolium.png">
-		<!-- Stylecss -->
+    <link rel="shortcut icon" type="image/x-icon" href={{ url_for('static', filename='img/favicon.ico') }}>
+		<title>Traduction - LIUM</title>
 		<link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/static/carousel.css" rel="stylesheet">
 		<link href="/static/style.css" rel="stylesheet">
-  	</head>
+	</head>
 
 	<body>
 		<header>
@@ -31,77 +30,72 @@
 						</li>
 					</ul>
 					<form class="form-inline mt-2 mt-md-0">
-						<h4>
-							<a href="{{ url_for('index') }}">ACCUEIL</a>  &nbsp;&nbsp;
-							<a href="{{ url_for('traduction') }}">TRADUCTION</a> &nbsp;&nbsp;
-							<a href="{{ url_for('transcription') }}">TRANSCRPTION</a>&nbsp;&nbsp;</h4>
+						<h4><a href="{{ url_for('index') }}">ACCUEIL</a>  &nbsp;&nbsp;
+						<a href="{{ url_for('traduction') }}">TRADUCTION</a> &nbsp;&nbsp;
+ 						<a href="{{ url_for('transcription') }}">TRANSCRIPTION</a>&nbsp;&nbsp;</h4>
 					</form>
 				</div>
 			</nav>
 			<hr>
 			<div class="navbar">
-				<img src='/static/img/logo_lium.png' class="w3-bar-item"  style="width:200px;height:90px;"/>
-				<h3 align='center'>TRADUCTION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				</h3>
+				<img src='/static/logo_lium.png' class="w3-bar-item"  style="width:200px;height:90px;"/>
+				<h3 align='center'>TRADUCTION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 			</div>
 		</header>
 		<hr>
-		
 		<main role="main">
 			<div class="container">
-				<form action="{{ url_for('traduction') }}" method="post">
-					<select  id="source" name="source" style="padding: 14px 32px;" required>
-						<option value=''>Choisir Langue Source</option>
+				<form method='get' action="{{ url_for('traduction') }}">
+					<select  id="source" name='source' style="padding: 14px 32px;" required>
+						<option value=''>Choisir la langue source</option>
 						<option value='fr'>Français</option>
 						<option value='en'>Anglais</option>
-						<option value='ar'>Arabe</option>
+						{{source}}
 					</select>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<select  id="target" name="target" style="padding: 14px 32px;" required>
-						<option value=''>Choisir Langue Cible</option>
+					<select  id="target"  name='target' style="padding: 14px 32px;" required>
+						<option value=''>Choisir la langue cible</option>
 						<option value='fr'>Français</option>
 						<option value='en'>Anglais</option>
-						<option value='ar'>Arabe</option>
+						{{target}}
 					</select>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type='submit' class="button button3" value='Traduire'>
+	 				<input type='submit' class="button button3" value='Traduire' action="{{ url_for('traduction') }}">
 					<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+					{% if src=='fr' %}
+						<script>
+							document.getElementById("source").selectedIndex = "1";
+						</script>
+					{% endif %}
+ 					{% if lang=='en' %}
+ 						<script>
+							document.getElementById("source").selectedIndex = "2";
+						</script>
+					{% endif %}
+					{% if target=='fr' %}
+						<script>
+							document.getElementById("target").selectedIndex = "1";
+						</script>
+					{% endif %}
+					{% if lang=='fr' %}
+						<script>
+							document.getElementById("target").selectedIndex = "2";
+						</script>
+					{% endif %}
 					<div class="form-group">
-						<textarea class="form-control" rows="5" id="text" name="text" required></textarea>
+						<textarea class="form-control" rows="5"  name="text" id="text"   required >{{txt}}</textarea>
 						<h2>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						</h2> 
-						<textarea id="translation" name="translation" class="form-control" rows="5" readonly>{{translation}}</textarea>
+						<textarea class="form-control" rows="5" id="translation"  name='translation'>{{t}}</textarea>
 					</div>
 				</form>
 			</div>
 		</main>
-		
-		<footer>		
-			<div id="footer-core">		  
-				<div class="widget-area one_fourth">
-					<a href="http://www.univ-lemans.fr">
-						<img src='/static/img/universite.jpg' width="80%" hspace="10" vspace="20" alt="universite">
-					</a>
-				</div>
-				<div class="widget-area last three_fourth">
-					<aside class="widget widget_text">
-						<h3 class="footer-widget-title"><span>Laboratoire d’Informatique de l’Université du Mans (LIUM – EA 4023)</span></h3>	
-						<div class="textwidget">
-							<p>Avenue Olivier Messiaen<br>
-							F-72085 – LE MANS CEDEX 9<br>
-							Tél : +33 (0) 2 43 83 38 58</p>
-						</div>
-					</aside>
-				</div>      
-				<div class="copyright">(c) LIUM - Le Mans Université</div>
-			</div>
-		</footer>
 
-		<!-- JS files to upload faster-->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="/static/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+		<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
 		<script src="/static/assets/js/vendor/popper.min.js"></script>
 		<script src="/static/dist/js/bootstrap.min.js"></script>
 		<script src="/static/assets/js/vendor/holder.min.js"></script>

@@ -3,9 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>Accueil</title>
-		<link rel="Shortcut Icon" type="image/x-icon" href="/static/img/logolium.png">
-		<!-- Stylecss -->
+		<title>Accueil - LIUM</title>
+    <link rel="shortcut icon" type="image/x-icon" href={{ url_for('static', filename='img/favicon.ico') }}>
 		<link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/static/carousel.css" rel="stylesheet">
 		<link href="/static/style.css" rel="stylesheet">
@@ -55,7 +54,7 @@
 						<h4>
 							<a href="{{ url_for('index') }}">ACCUEIL</a>  &nbsp;&nbsp;
 							<a href="{{ url_for('traduction') }}">TRADUCTION</a> &nbsp;&nbsp;
- 							<a href="{{ url_for('transcription') }}">TRANSCRPTION</a>&nbsp;&nbsp;</h4>
+							<a href="{{ url_for('transcription') }}">TRANSCRIPTION</a>&nbsp;&nbsp;</h4>
 					</form>
 				</div>	
 			</nav>
